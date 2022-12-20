@@ -74,6 +74,7 @@ pipeline {
           stage('sonarqube') {
             steps {
                 echo 'test the code using sonarqube'
+                echo 'hello class'
             }
         }
 
