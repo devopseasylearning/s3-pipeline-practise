@@ -72,4 +72,19 @@ options {
             }
         }
     }
+	
+	
+	
+post {
+    
+    success {
+      slackSend (channel: '#development-alerts', color: 'good', message: "The Job was successful")
+    }
+
+    failure {
+      slackSend (channel: '#development-alerts', color: '#FF0000', message: "FAILURE: The Job was NOT successful")
+    }
+}
+	
+	
 }
