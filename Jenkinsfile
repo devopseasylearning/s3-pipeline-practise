@@ -49,7 +49,6 @@ stage('Setup parameters') {
                         ),
 
 
-
                           string(
                             defaultValue: 'yvan',
                             name: 'WEATHER-Tag',
