@@ -67,7 +67,6 @@ options {
         stage('Hello') {
             steps {
                 sh '''
-                ls 
                 ls
                 '''
             }
