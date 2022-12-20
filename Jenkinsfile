@@ -1,5 +1,6 @@
 
 
+
 pipeline {
     agent {
      label ("node1 || node2 ||  node3 || node4 ||  node5 ||  branch ||  main ||  jenkins-node || docker-agent ||  jenkins-docker2 ||  preproduction ||  production")
@@ -64,13 +65,135 @@ options {
             }
         }
  
-        stage('Hello') {
+        stage('permission') {
             steps {
                 sh '''
-                ls
+                ls 
+                pwd
                 '''
             }
         }
+
+        stage('cleaning') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('sonarqube') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('build-dev') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('build-sanbox') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+
+        stage('build-prod') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('login') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('push-to-dockerhub-dev') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('push-to-dockerhub-sanbox') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('push-to-dockerhub-prod') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('update helm charts-dev') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('update helm charts-sanbox') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('update helm charts-prod') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+        stage('wait for argocd') {
+            steps {
+                sh '''
+                ls 
+                pwd
+                '''
+            }
+        }
+
+
+        
     }
 	
 	
@@ -88,3 +211,5 @@ post {
 	
 	
 }
+
+
