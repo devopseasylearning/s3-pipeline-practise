@@ -79,4 +79,17 @@ stage('Setup parameters') {
             }
         }
     }
+	
+post {
+    
+    success {
+      slackSend (channel: '#development-alerts', color: 'good', message: "the job pass")
+    }
+
+    failure {
+      slackSend (channel: '#development-alerts', color: '#FF0000', message: "the job faille")
+    }
+}
+	
+	
 }
