@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: weather
+  name: weather
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: weather
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/app-net: "true"
+        io.kompose.service: weather
+    spec:
+      containers:
+        - env:
+            - name: APIKEY
+              value: ecbc396f46mshb65cbb1f82cf334p1fcc87jsna5e962a3c542
+          image: "{{ .Values.image.weather.repository }}:{{ .Values.image.weather.tag }}"
+          name: weather
+          resources: {}
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,118 @@
+stages:
+  - tag
+  - build-UI
+  - build-db
+  - build-auth
+  - build-weather
+  - login-push
+  - deploy
+default:
+  tags:
+    - n2shell
+# variables:
+#   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
+#   TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+tag:
+   stage: tag
+   script:
+     - TAG=`git rev-parse --short=4  HEAD`
+     - echo "TAG=$TAG" >> build.env
+   artifacts:
+     reports:
+       dotenv: build.env
+
+build-UI:
+  stage: build-UI
+  script:
+    - cd UI
+    - docker build -t $DOCKERHUB_USERNAME/s4-ui:$TAG .
+    - cd -
+
+build-db:
+  stage: build-db
+  script:
+    - cd DB
+    - docker build -t $DOCKERHUB_USERNAME/s4-db:$TAG .
+    - cd -
+
+build-auth:
+  stage: build-auth
+  script:
+    - cd auth
+    - docker build -t $DOCKERHUB_USERNAME/s4-auth:$TAG .
+    - cd -
+
+build-weather:
+  stage: build-weather
+  script:
+    - cd weather
+    - docker build -t $DOCKERHUB_USERNAME/s4-weather:$TAG .
+    - cd -
+
+login-push:
+  stage: login-push
+  script:
+    - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+    - docker push $DOCKERHUB_USERNAME/s4-ui:$TAG
+    - docker push $DOCKERHUB_USERNAME/s4-db:$TAG
+    - docker push $DOCKERHUB_USERNAME/s4-auth:$TAG
+    - docker push $DOCKERHUB_USERNAME/s4-weather:$TAG
+
+deploy:
+  stage: deploy
+  script: |   
+     cat <<EOF > docker-compose.yml
+        version: "3.9"
+        services:
+          auth:
+            restart: always
+            image: $DOCKERHUB_USERNAME/s4-auth:$TAG
+            depends_on:
+              - db
+            environment:
+              DB_HOST: db
+              DB_PASSWORD: my-secret-pw
+            networks:
+              - app-net
+          ui:
+            restart: always
+            image: $DOCKERHUB_USERNAME/s4-ui:$TAG
+            depends_on:
+              - auth
+              - weather
+            environment:
+              AUTH_HOST: auth
+              AUTH_PORT: 8080
+              WEATHER_HOST: weather
+              WEATHER_PORT: 5000
+            ports:
+              - "3000:3000"
+            networks:
+              - app-net
+          weather:
+            restart: always
+            image: $DOCKERHUB_USERNAME/s4-weather:$TAG
+            environment:
+              APIKEY: ecbc396f46mshb65cbb1f82cf334p1fcc87jsna5e962a3c542
+            networks:
+              - app-net
+          db:
+            restart: always
+            image: $DOCKERHUB_USERNAME/s4-db:$TAG
+            environment:
+              MYSQL_ROOT_PASSWORD: my-secret-pw
+            networks:
+              - app-net
+            volumes:
+              - ./db-data:/var/lib/mysql
+        
+        networks:
+          app-net:
+            driver: bridge
+        volumes:
+          db-data:
+     EOF
+     cat docker-compose.yml 
+     docker-compose down || true
+     docker-compose up -d
+     
