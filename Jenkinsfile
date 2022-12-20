@@ -1,69 +1,76 @@
-
-
 pipeline {
-    agent {
-     label ("node1 || node2 ||  node3 || node4 ||  node5 ||  branch ||  main ||  jenkins-node || docker-agent ||  jenkins-docker2 ||  preproduction ||  production")
-            }
+
+agent {
+ label ("node1 || node2 ||  node3 || node4 ||  node5 ||  branch ||  main ||  jenkins-node || docker-agent ||  jenkins-docker2 ||  preproduction ||  production")
+} 
 
 options {
-    buildDiscarder(logRotator(numToKeepStr: '20'))
+    buildDiscarder(logRotator(numToKeepStr: '2'))
     disableConcurrentBuilds()
     timeout (time: 60, unit: 'MINUTES')
     timestamps()
-  }
+}
 
     stages {
-        stage('Setup parameters') {
+
+stage('Setup parameters') {
             steps {
                 script {
                     properties([
-                        parameters([    
+                        parameters([   
                         
                         choice(
-                            choices: ['Dev', 'Sanbox','Prod'], 
-                            name: 'Environment'   
-                                ),
+                            choices: ['dev', 'sanbox', 'prod'], 
+                            name: 'Environment'
+                                 
+                        ),
+
 
                           string(
-                            defaultValue: 's4user',
-                            name: 'User',
-			                description: 'Required to enter your name',
+                            defaultValue: 'yvan',
+                            name: 'User-yvan',
+			    description: 'Enter the image Tag to deploy',
                             trim: true
-                            ),
+                        ),
 
                           string(
-                            defaultValue: 'eric-001',
+                            defaultValue: 'yvan',
                             name: 'DB-Tag',
-			                description: 'Required to enter the image tag',
+			    description: 'Enter the image Tag to deploy',
                             trim: true
-                            ),
+                        ),
+
 
                           string(
-                            defaultValue: 'eric-001',
+                            defaultValue: 'yvan',
                             name: 'UI-Tag',
-			                description: 'Required to enter the image tag',
+			    description: 'Enter the image Tag to deploy',
                             trim: true
-                            ),
+                        ),
+
+
 
                           string(
-                            defaultValue: 'eric-001',
+                            defaultValue: 'yvan',
                             name: 'WEATHER-Tag',
-			                description: 'Required to enter the image tag',
+			    description: 'Enter the image Tag to deploy',
                             trim: true
-                            ),
+                        ),
 
-                          string(
-                            defaultValue: 'eric-001',
+                            string(
+                            defaultValue: 'yvan',
                             name: 'AUTH-Tag',
-			                description: 'Required to enter the image tag',
+			    description: 'Enter the image Tag to deploy',
                             trim: true
-                            ),
+                        ),
+
                         ])
                     ])
                 }
             }
         }
- 
+
+
         stage('Hello') {
             steps {
                 sh '''
