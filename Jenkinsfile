@@ -181,28 +181,46 @@ echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u devopseasylearning2021 --passw
         }
 
         stage('push-to-dockerhub-dev') {
+          when{ 
+              expression {
+                env.Environment == 'DEV' }
+                }
             steps {
                 sh '''
-                ls 
-                pwd
+docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag 
+docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag 
+docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag 
+docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag 
                 '''
             }
         }
 
         stage('push-to-dockerhub-sanbox') {
+          when{ 
+              expression {
+                env.Environment == 'SANBOX' }
+                }
             steps {
                 sh '''
-                ls 
-                pwd
+docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag 
+docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag 
+docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag 
+docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag 
                 '''
             }
         }
 
         stage('push-to-dockerhub-prod') {
+          when{ 
+              expression {
+                env.Environment == 'PROD' }
+                }
             steps {
                 sh '''
-                ls 
-                pwd
+docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag 
+docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag 
+docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag 
+docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag 
                 '''
             }
         }
