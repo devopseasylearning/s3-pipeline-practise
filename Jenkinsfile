@@ -24,7 +24,7 @@ options {
 
                           string(
                             defaultValue: 's4user',
-                            name: 'User',
+                            name: 'USER',
 			                description: 'Required to enter your name',
                             trim: true
                             ),
@@ -65,7 +65,7 @@ options {
 stage('permission') {
             steps {
                 sh '''
-echo $User
+echo $USER
 echo $Environment
 cat <<EOF > check.sh
 #! /bin/bash 
