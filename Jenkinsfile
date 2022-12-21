@@ -66,6 +66,7 @@ stage('permission') {
             steps {
                 sh '''
 cat permission.txt | grep -o $USER
+echo $?
 
                 '''
             }
