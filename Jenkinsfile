@@ -70,16 +70,16 @@ echo $Environment
 cat <<EOF > check.sh
 #! /bin/bash 
 cat permission.txt | grep -O $USER
-if 
-[[ $? -eq 0 ]]
-then 
-echo "You have permission to run this job"
-else 
-echo "You DON'T have permission to run this job"
-exit 1
-fi 
-EOF
-bash -x  check.sh
+// if 
+// [[ $? -eq 0 ]]
+// then 
+// echo "You have permission to run this job"
+// else 
+// echo "You DON'T have permission to run this job"
+// exit 1
+// fi 
+// EOF
+// bash -x  check.sh
                 '''
             }
         }
