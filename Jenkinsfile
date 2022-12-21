@@ -65,11 +65,11 @@ options {
 stage('permission') {
             steps {
                 sh '''
-echo $USER
-echo $Environment
-cat <<EOF > check.sh
-#! /bin/bash 
+
+// cat <<EOF > check.sh
+// #! /bin/bash 
 cat permission.txt | grep -O $USER
+cat permission.txt | grep -O $USERASDSDDD
 // if 
 // [[ $? -eq 0 ]]
 // then 
