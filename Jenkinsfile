@@ -65,6 +65,7 @@ options {
 stage('permission') {
             steps {
                 sh '''
+echo $User
 cat <<EOF > check.sh
 #! /bin/bash 
 USER=${User}
