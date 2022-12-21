@@ -18,7 +18,7 @@ options {
                         parameters([    
                         
                         choice(
-                            choices: ['Dev', 'Sanbox','Prod'], 
+                            choices: ['DEV', 'SANBOX','PROD'], 
                             name: 'Environment'   
                                 ),
 
@@ -31,28 +31,28 @@ options {
 
                           string(
                             defaultValue: 'eric-001',
-                            name: 'DB-Tag',
+                            name: 'DBTag',
 			                description: 'Required to enter the image tag',
                             trim: true
                             ),
 
                           string(
                             defaultValue: 'eric-001',
-                            name: 'UI-Tag',
+                            name: 'UITag',
 			                description: 'Required to enter the image tag',
                             trim: true
                             ),
 
                           string(
                             defaultValue: 'eric-001',
-                            name: 'WEATHER-Tag',
+                            name: 'WEATHERTag',
 			                description: 'Required to enter the image tag',
                             trim: true
                             ),
 
                           string(
                             defaultValue: 'eric-001',
-                            name: 'AUTH-Tag',
+                            name: 'AUTHTag',
 			                description: 'Required to enter the image tag',
                             trim: true
                             ),
@@ -69,7 +69,6 @@ echo $USER
 echo $Environment
 cat <<EOF > check.sh
 #! /bin/bash 
-USER=${User}
 cat permission.txt | grep -i $USER
 if 
 [[ $? -eq 0 ]]
