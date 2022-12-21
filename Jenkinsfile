@@ -65,21 +65,9 @@ options {
 stage('permission') {
             steps {
                 sh '''
+cat permission.txt | grep -o $USER
+cat permission.txt | grep -o $USERASDSDDD
 
-// cat <<EOF > check.sh
-// #! /bin/bash 
-cat permission.txt | grep -O $USER
-cat permission.txt | grep -O $USERASDSDDD
-// if 
-// [[ $? -eq 0 ]]
-// then 
-// echo "You have permission to run this job"
-// else 
-// echo "You DON'T have permission to run this job"
-// exit 1
-// fi 
-// EOF
-// bash -x  check.sh
                 '''
             }
         }
