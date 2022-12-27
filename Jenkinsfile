@@ -259,7 +259,7 @@ cat <<EOF > dev-values.yaml
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
+                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git || true
 
 	            '''
 	          }
@@ -305,7 +305,7 @@ cat <<EOF > sanbox-values.yaml
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
+                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git  || true
 
 	            '''
 	          }
@@ -352,7 +352,7 @@ cat <<EOF > prod-values.yaml
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
+                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git  || true
 
 	            '''
 	          }
