@@ -69,6 +69,9 @@ stage('Setup parameters') {
             }
         }
 
+	    
+	    
+	    
 
         stage('Hello') {
             steps {
