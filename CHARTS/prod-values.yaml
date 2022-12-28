@@ -1,7 +1,7 @@
         image:
           db:
              repository: devopseasylearning2021/s4-db
-             tag: "v1.0.0"
+             tag: "v2.3.3"
           ui:
              repository: devopseasylearning2021/s4-ui
              tag: "v1.0.0"
