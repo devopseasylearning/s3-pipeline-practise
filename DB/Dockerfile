@@ -1,2 +1,2 @@
-FROM mysql:8.0.31
+FROM mysql
 LABEL "Company"="Devops-Easy-Learning"
