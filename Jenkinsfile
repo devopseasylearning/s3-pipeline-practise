@@ -242,10 +242,12 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
               rm -rf s4-pipeline-practise || true
               git clone https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
               cd s4-pipeline-practise/CHARTS
+	      pwd
+	      ls-l
 cat <<EOF >dev-values.yaml
            image:
             db:
-            repository: devopseasylearning2021/s4-db:
+            repository: devopseasylearning2021/s4-db
             tag: "$DBTag"
          ui:
             repository: devopseasylearning2021/s4-ui
@@ -256,7 +258,8 @@ cat <<EOF >dev-values.yaml
          weather:
             repository: devopseasylearning2021/s4-weather
            tag: "$WEATHERTag"
-   EOF
+EOF
+            cat dev-values.yaml
             git add -A 
             git commit -m "testing commit from jenkins"
             git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
@@ -289,7 +292,7 @@ cat <<EOF >dev-values.yaml
 cat <<EOF >sanbox-values.yaml
            image:
             db:
-            repository: devopseasylearning2021/s4-db:
+            repository: devopseasylearning2021/s4-db
             tag: "$DBTag"
          ui:
             repository: devopseasylearning2021/s4-ui
@@ -300,7 +303,7 @@ cat <<EOF >sanbox-values.yaml
          weather:
             repository: devopseasylearning2021/s4-weather
            tag: "$WEATHERTag"
-   EOF
+EOF
             git add -A 
             git commit -m "testing commit from jenkins"
             git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
@@ -333,7 +336,7 @@ cat <<EOF >sanbox-values.yaml
 cat <<EOF >prod-values.yaml
            image:
             db:
-            repository: devopseasylearning2021/s4-db:
+            repository: devopseasylearning2021/s4-db
             tag: "$DBTag"
          ui:
             repository: devopseasylearning2021/s4-ui
@@ -344,7 +347,7 @@ cat <<EOF >prod-values.yaml
          weather:
             repository: devopseasylearning2021/s4-weather
            tag: "$WEATHERTag"
-   EOF
+EOF
             git add -A 
             git commit -m "testing commit from jenkins"
             git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
