@@ -8,7 +8,7 @@ pipeline {
 	}
 
 options {
-    buildDiscarder(logRotator(numToKeepStr: '20'))
+    buildDiscarder(logRotator(numToKeepStr: '5'))
     disableConcurrentBuilds()
     timeout (time: 60, unit: 'MINUTES')
     timestamps()
@@ -27,7 +27,7 @@ options {
                                 ),
 
                           string(
-                            defaultValue: 's4user',
+                            defaultValue: 's3paulinus',
                             name: 'USER',
 			                description: 'Required to enter your name',
                             trim: true
@@ -84,23 +84,23 @@ echo $?
             }
         }
 
-    // stage('SonarQube analysis') {
-    //         agent {
-    //             docker {
-    //               image 'sonarsource/sonar-scanner-cli:4.7.0'
-    //             }
-    //            }
-    //            environment {
-    //     CI = 'true'
-    //     //  scannerHome = tool 'Sonar'
-    //     scannerHome='/opt/sonar-scanner'
-    // }
-    //         steps{
-    //             withSonarQubeEnv('Sonar') {
-    //                 sh "${scannerHome}/bin/sonar-scanner"
-    //             }
-    //         }
-    //     }
+    stage('SonarQube analysis') {
+            agent {
+                docker {
+                  image 'sonarsource/sonar-scanner-cli:4.7.0'
+                }
+               }
+               environment {
+        CI = 'true'
+        //  scannerHome = tool 'Sonar'
+        scannerHome='/opt/sonar-scanner'
+    }
+            steps{
+                withSonarQubeEnv('Sonar') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
 
         stage('build-dev') {
          when{ 
@@ -225,43 +225,42 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
             }
         }
 
-    stage('update helm charts-dev') {
-         when{ 
-          expression {
-            env.Environment == 'DEV' }
-            }
+          stage('update helm chart-dev') {
+           when{ 
+              expression {
+                env.Environment == 'DEV' }
+                }
 	      steps {
 	        script {
 	          withCredentials([
-	            string(credentialsId: 'eric-image', variable: 'TOKEN')
+	            string(credentialsId: 'paulinus-image', variable: 'TOKEN')
 	          ]) {
 
 	            sh '''
-                 git config --global user.name "devopseasylearning"
-                 git config --global user.email info@devopseasylearning.com
-                rm -rf s4-pipeline-practise || true
-                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
-                cd s4-pipeline-practise/CHARTS
-cat <<EOF > dev-values.yaml           
-        image:
-          db:
-             repository: devopseasylearning2021/s4-db
-             tag: "$DBTag"
-          ui:
-             repository: devopseasylearning2021/s4-ui
-             tag: "$UITag"
-          auth:
-             repository: devopseasylearning2021/s4-auth
-             tag: "$AUTHTag"
-          weather:
-             repository: devopseasylearning2021/s4-weather
-             tag: "$WEATHERTag"
-EOF
-                git add -A 
-                git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git || true
-
-	            '''
+              git config --global user.email "anipaulinus@gmail.com"
+               git config --global user.name "Anipal1"
+              rm -rf s4-pipeline-practise || true
+              git clone https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+              cd s4-pipeline-practise/CHARTS
+cat <<EOF >dev-values.yaml
+           image:
+            db:
+            repository: devopseasylearning2021/s4-db
+            tag: "$DBTag"
+         ui:
+            repository: devopseasylearning2021/s4-ui
+            tag: "$UITag"
+         auth:
+            repository: devopseasylearning2021/s4-auth
+            tag: "$AUTHTag"
+         weather:
+            repository: devopseasylearning2021/s4-weather
+           tag: "$WEATHERTag"
+   EOF
+            git add -A 
+            git commit -m "testing commit from jenkins"
+            git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+	           '''
 	          }
 
 	        }
@@ -270,44 +269,42 @@ EOF
 
 	    }
 
-
-    stage('update helm charts-sanbox') {
-         when{ 
-          expression {
-            env.Environment == 'SANBOX' }
-            }
+         stage('update helm chart-sanbox') {
+            when{ 
+              expression {
+                env.Environment == 'SANBOX' }
+                }
 	      steps {
 	        script {
 	          withCredentials([
-	            string(credentialsId: 'eric-image', variable: 'TOKEN')
+	            string(credentialsId: 'paulinus-image', variable: 'TOKEN')
 	          ]) {
 
 	            sh '''
-                 git config --global user.name "devopseasylearning"
-                 git config --global user.email info@devopseasylearning.com
-                rm -rf s4-pipeline-practise || true
-                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
-                cd s4-pipeline-practise/CHARTS
-cat <<EOF > sanbox-values.yaml           
-        image:
-          db:
-             repository: devopseasylearning2021/s4-db
-             tag: "$DBTag"
-          ui:
-             repository: devopseasylearning2021/s4-ui
-             tag: "$UITag"
-          auth:
-             repository: devopseasylearning2021/s4-auth
-             tag: "$AUTHTag"
-          weather:
-             repository: devopseasylearning2021/s4-weather
-             tag: "$WEATHERTag"
-EOF
-                git add -A 
-                git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git  || true
-
-	            '''
+              git config --global user.email "anipaulinus@gmail.com"
+               git config --global user.name "Anipal1"
+              rm -rf s4-pipeline-practise || true
+              git clone https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+              cd s4-pipeline-practise/CHARTS
+    cat <<EOF >sanbox-values.yaml
+           image:
+            db:
+            repository: devopseasylearning2021/s4-db
+            tag: "$DBTag"
+         ui:
+            repository: devopseasylearning2021/s4-ui
+            tag: "$UITag"
+         auth:
+            repository: devopseasylearning2021/s4-auth
+            tag: "$AUTHTag"
+         weather:
+            repository: devopseasylearning2021/s4-weather
+           tag: "$WEATHERTag"
+    EOF
+            git add -A 
+            git commit -m "testing commit from jenkins"
+            git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+	           '''
 	          }
 
 	        }
@@ -316,45 +313,42 @@ EOF
 
 	    }
 
-
-
-    stage('update helm charts-prod') {
-         when{ 
-          expression {
-            env.Environment == 'PROD' }
-            }
+           stage('update helm chart-prod') {
+           when{ 
+              expression {
+                env.Environment == 'PROD' }
+                }
 	      steps {
 	        script {
 	          withCredentials([
-	            string(credentialsId: 'eric-image', variable: 'TOKEN')
+	            string(credentialsId: 'paulinus-image', variable: 'TOKEN')
 	          ]) {
 
 	            sh '''
-                 git config --global user.name "devopseasylearning"
-                 git config --global user.email info@devopseasylearning.com
-                rm -rf s4-pipeline-practise || true
-                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
-                cd s4-pipeline-practise/CHARTS
-cat <<EOF > prod-values.yaml           
-        image:
-          db:
-             repository: devopseasylearning2021/s4-db
-             tag: "$DBTag"
+              git config --global user.email "anipaulinus@gmail.com"
+               git config --global user.name "Anipal1"
+              rm -rf s4-pipeline-practise || true
+              git clone https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+              cd s4-pipeline-practise/CHARTS
+    cat <<EOF >prod-values.yaml
+           image:
+            db:
+            repository: devopseasylearning2021/s4-db
+            tag: "$DBTag"
           ui:
-             repository: devopseasylearning2021/s4-ui
-             tag: "$UITag"
-          auth:
-             repository: devopseasylearning2021/s4-auth
-             tag: "$AUTHTag"
-          weather:
-             repository: devopseasylearning2021/s4-weather
-             tag: "$WEATHERTag"
-EOF
-                git add -A 
-                git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git  || true
-
-	            '''
+            repository: devopseasylearning2021/s4-ui
+            tag: "$UITag"
+         auth:
+            repository: devopseasylearning2021/s4-auth
+            tag: "$AUTHTag"
+         weather:
+            repository: devopseasylearning2021/s4-weather
+           tag: "$WEATHERTag"
+    EOF
+            git add -A 
+            git commit -m "testing commit from jenkins"
+            git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+	           '''
 	          }
 
 	        }
@@ -362,12 +356,11 @@ EOF
 	      }
 
 	    }
-
 
         stage('wait for argocd') {
             steps {
                 sh '''
-                ls 
+                ls -h
                 pwd
                 '''
             }
@@ -376,8 +369,6 @@ EOF
 
         
     }
-	
-	
 	
    post {
    
@@ -402,8 +393,3 @@ EOF
 
 	
 }
-
-
-
-
-
