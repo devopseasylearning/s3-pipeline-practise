@@ -225,8 +225,11 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
             }
         }
 
-         stage('backup') {
-
+          stage('update helm chart-dev') {
+           when{ 
+              expression {
+                env.Environment == 'DEV' }
+                }
 	      steps {
 	        script {
 	          withCredentials([
@@ -234,14 +237,30 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
 	          ]) {
 
 	            sh '''
-                git config --global user.name "Anipal1"
-                git config --global user.email anikepaulinus@gmail.com
-                rm -rf s4-pipeline-practise || true
-                git clone https://Anipal1:[$TOKEN]@github.com/Anipal1/s4-pipeline-practise
-                git add -A
-                git commit -m "test"
-                cd s4-pipeline-practise
-	            '''
+              git config --global user.email "anipaulinus@gmail.com"
+               git config --global user.name "Anipal1"
+              rm -rf s4-pipeline-practise || true
+              git clone https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+              cd s4-pipeline-practise/CHARTS
+cat <<EOF >dev-values.yaml
+           image:
+            db:
+            repository: devopseasylearning2021/s4-db:
+            tag: "$DBTag"
+         ui:
+            repository: devopseasylearning2021/s4-ui
+            tag: "$UITag"
+         auth:
+            repository: devopseasylearning2021/s4-auth
+            tag: "$AUTHTag"
+         weather:
+            repository: devopseasylearning2021/s4-weather
+           tag: "$WEATHERTag"
+   EOF
+            git add -A 
+            git commit -m "testing commit from jenkins"
+            git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+	           '''
 	          }
 
 	        }
@@ -250,8 +269,95 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
 
 	    }
 
+         stage('update helm chart-sanbox') {
+            when{ 
+              expression {
+                env.Environment == 'sanbox' }
+                }
+	      steps {
+	        script {
+	          withCredentials([
+	            string(credentialsId: 'paulinus-image', variable: 'TOKEN')
+	          ]) {
 
-        stage('update helm charts-dev') {
+	            sh '''
+              git config --global user.email "anipaulinus@gmail.com"
+               git config --global user.name "Anipal1"
+              rm -rf s4-pipeline-practise || true
+              git clone https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+              cd s4-pipeline-practise/CHARTS
+cat <<EOF >sanbox-values.yaml
+           image:
+            db:
+            repository: devopseasylearning2021/s4-db:
+            tag: "$DBTag"
+         ui:
+            repository: devopseasylearning2021/s4-ui
+            tag: "$UITag"
+         auth:
+            repository: devopseasylearning2021/s4-auth
+            tag: "$AUTHTag"
+         weather:
+            repository: devopseasylearning2021/s4-weather
+           tag: "$WEATHERTag"
+   EOF
+            git add -A 
+            git commit -m "testing commit from jenkins"
+            git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+	           '''
+	          }
+
+	        }
+
+	      }
+
+	    }
+
+           stage('update helm chart-prod') {
+           when{ 
+              expression {
+                env.Environment == 'prod' }
+                }
+	      steps {
+	        script {
+	          withCredentials([
+	            string(credentialsId: 'paulinus-image', variable: 'TOKEN')
+	          ]) {
+
+	            sh '''
+              git config --global user.email "anipaulinus@gmail.com"
+               git config --global user.name "Anipal1"
+              rm -rf s4-pipeline-practise || true
+              git clone https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+              cd s4-pipeline-practise/CHARTS
+cat <<EOF >prod-values.yaml
+           image:
+            db:
+            repository: devopseasylearning2021/s4-db:
+            tag: "$DBTag"
+         ui:
+            repository: devopseasylearning2021/s4-ui
+            tag: "$UITag"
+         auth:
+            repository: devopseasylearning2021/s4-auth
+            tag: "$AUTHTag"
+         weather:
+            repository: devopseasylearning2021/s4-weather
+           tag: "$WEATHERTag"
+   EOF
+            git add -A 
+            git commit -m "testing commit from jenkins"
+            git push https://Anipal1:$TOKEN@github.com/Anipal1/s4-pipeline-practise.git
+	           '''
+	          }
+
+	        }
+
+	      }
+
+	    }
+
+        stage('wait for argocd') {
             steps {
                 sh '''
                 ls -h
@@ -261,38 +367,8 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
         }
 
 
-        stage('update helm charts-sanbox') {
-            steps {
-                sh '''
-                ls 
-                pwd
-                '''
-            }
-        }
-
-        stage('update helm charts-prod') {
-            steps {
-                sh '''
-                ls 
-                pwd
-                '''
-            }
-        }
-
-        stage('wait for argocd') {
-            steps {
-                sh '''
-                ls 
-                pwd
-                '''
-            }
-        }
-
-
         
     }
-	
-	
 	
    post {
    
@@ -316,54 +392,4 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
 
 
 	
-}
-
-
-
-
-
-
-
-
-
-pipeline {
-    agent any
-
-    stages {
-        stage('Hello') {
-            steps {
-                sh '''
-                ls 
-                pwd
-                '''
-            }
-        }
-
-    stage('backup') {
-
-	      steps {
-	        script {
-	          withCredentials([
-	            string(credentialsId: 'paulinus-image', variable: 'TOKEN')
-	          ]) {
-
-	            sh '''
-                git config --global user.name "Anipal1"
-                git config --global user.email anikepaulinus@gmail.com
-                rm -rf github-jenkins-practise02 || true
-                git clone https://Anipal1:[$TOKEN]@github.com/Anipal1/github-jenkins-practise02
-                git add -A
-                git commit -m "test"
-                cd github-jenkins-practise02
-	            '''
-	          }
-
-	        }
-
-	      }
-
-	    }
-
-
-    }
 }
