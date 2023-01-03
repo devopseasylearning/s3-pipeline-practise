@@ -110,16 +110,16 @@ echo $?
             steps {
                 sh '''
 cd UI
-docker build -t devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag .
+docker build -t devopseasylearning2021/s4-ui:${BUILD_NUMBER}-$UITag .
 cd -
 cd DB
-docker build -t devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag .
+docker build -t devopseasylearning2021/s4-db:${BUILD_NUMBER}-$DBTag .
 cd -
 cd auth 
-docker build -t devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag .
+docker build -t devopseasylearning2021/s4-auth:${BUILD_NUMBER}-$AUTHTag .
 cd -
 cd weather 
-docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag .
+docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag .
 cd -
                 '''
             }
@@ -133,16 +133,16 @@ cd -
             steps {
                 sh '''
 cd UI
-docker build -t devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag .
+docker build -t devopseasylearning2021/s4-ui:${BUILD_NUMBER}-$UITag .
 cd -
 cd DB
-docker build -t devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag .
+docker build -t devopseasylearning2021/s4-db:${BUILD_NUMBER}-$DBTag .
 cd -
 cd auth 
-docker build -t devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag .
+docker build -t devopseasylearning2021/s4-auth:${BUILD_NUMBER}-$AUTHTag .
 cd -
 cd weather 
-docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag .
+docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag .
 cd -
                 '''
             }
@@ -157,16 +157,16 @@ cd -
             steps {
                 sh '''
 cd UI
-docker build -t devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag .
+docker build -t devopseasylearning2021/s4-ui:${BUILD_NUMBER}-$UITag .
 cd -
 cd DB
-docker build -t devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag .
+docker build -t devopseasylearning2021/s4-db:${BUILD_NUMBER}-$DBTag .
 cd -
 cd auth 
-docker build -t devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag .
+docker build -t devopseasylearning2021/s4-auth:${BUILD_NUMBER}-$AUTHTag .
 cd -
 cd weather 
-docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag .
+docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag .
 cd -
                 '''
             }
@@ -187,10 +187,10 @@ echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u devopseasylearning2021 --passw
                 }
             steps {
                 sh '''
-docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag 
-docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag 
-docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag 
-docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag 
+docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}-$UITag 
+docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}-$DBTag 
+docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}-$AUTHTag 
+docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag 
                 '''
             }
         }
@@ -205,7 +205,7 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
 docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag 
 docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag 
 docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag 
-docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag 
+docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag 
                 '''
             }
         }
@@ -217,10 +217,10 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag
                 }
             steps {
                 sh '''
-docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}$UITag 
-docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}$DBTag 
-docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}$AUTHTag 
-docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}$WEATHERTag 
+docker push devopseasylearning2021/s4-ui:${BUILD_NUMBER}-$UITag 
+docker push devopseasylearning2021/s4-db:${BUILD_NUMBER}-$DBTag 
+docker push devopseasylearning2021/s4-auth:${BUILD_NUMBER}-$AUTHTag 
+docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag 
                 '''
             }
         }
@@ -246,16 +246,16 @@ cat <<EOF > dev-values.yaml
         image:
           db:
              repository: devopseasylearning2021/s4-db
-             tag: "${BUILD_NUMBER}$UITag$DBTag"
+             tag: "${BUILD_NUMBER}-$DBTag"
           ui:
              repository: devopseasylearning2021/s4-ui
-             tag: "${BUILD_NUMBER}$UITag$UITag"
+             tag: "${BUILD_NUMBER}-$UITag"
           auth:
              repository: devopseasylearning2021/s4-auth
-             tag: "${BUILD_NUMBER}$UITag$AUTHTag"
+             tag: "${BUILD_NUMBER}-$AUTHTag"
           weather:
              repository: devopseasylearning2021/s4-weather
-             tag: "${BUILD_NUMBER}$UITag$WEATHERTag"
+             tag: "${BUILD_NUMBER}-$WEATHERTag"
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
@@ -292,16 +292,16 @@ cat <<EOF > sanbox-values.yaml
         image:
           db:
              repository: devopseasylearning2021/s4-db
-             tag: "${BUILD_NUMBER}$UITag$DBTag"
+             tag: "${BUILD_NUMBER}-$DBTag"
           ui:
              repository: devopseasylearning2021/s4-ui
-             tag: "${BUILD_NUMBER}$UITag$UITag"
+             tag: "${BUILD_NUMBER}-$UITag"
           auth:
              repository: devopseasylearning2021/s4-auth
-             tag: "${BUILD_NUMBER}$UITag$AUTHTag"
+             tag: "${BUILD_NUMBER}-$AUTHTag"
           weather:
              repository: devopseasylearning2021/s4-weather
-             tag: "${BUILD_NUMBER}$UITag$WEATHERTag"
+             tag: "${BUILD_NUMBER}-$WEATHERTag"
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
@@ -339,16 +339,16 @@ cat <<EOF > prod-values.yaml
         image:
           db:
              repository: devopseasylearning2021/s4-db
-             tag: "${BUILD_NUMBER}$UITag$DBTag"
+             tag: "${BUILD_NUMBER}-$DBTag"
           ui:
              repository: devopseasylearning2021/s4-ui
-             tag: "${BUILD_NUMBER}$UITag$UITag"
+             tag: "${BUILD_NUMBER}-$UITag"
           auth:
              repository: devopseasylearning2021/s4-auth
-             tag: "${BUILD_NUMBER}$UITag$AUTHTag"
+             tag: "${BUILD_NUMBER}-$AUTHTag"
           weather:
              repository: devopseasylearning2021/s4-weather
-             tag: "${BUILD_NUMBER}$UITag$WEATHERTag"
+             tag: "${BUILD_NUMBER}-$WEATHERTag"
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
@@ -364,14 +364,6 @@ EOF
 	    }
 
 
-        stage('wait for argocd') {
-            steps {
-                sh '''
-                ls 
-                pwd
-                '''
-            }
-        }
 
 
         
