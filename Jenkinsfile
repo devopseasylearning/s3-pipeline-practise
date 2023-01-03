@@ -242,7 +242,7 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag
                  git config --global user.email info@devopseasylearning.com
                 rm -rf s3-pipeline-practise--charts || true
                 git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git
-                cd s3-pipeline-practise--charts/CHARTS
+                
 cat <<EOF > dev-values.yaml           
         image:
           db:
@@ -288,7 +288,7 @@ EOF
                  git config --global user.email info@devopseasylearning.com
                 rm -rf s3-pipeline-practise--charts || true
                 git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git
-                cd s3-pipeline-practise--charts/CHARTS
+                
 cat <<EOF > sanbox-values.yaml           
         image:
           db:
@@ -335,7 +335,7 @@ EOF
                  git config --global user.email info@devopseasylearning.com
                 rm -rf s3-pipeline-practise--charts || true
                 git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git
-                cd s3-pipeline-practise--charts/CHARTS
+                
 cat <<EOF > prod-values.yaml           
         image:
           db:
