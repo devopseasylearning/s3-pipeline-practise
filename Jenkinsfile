@@ -123,7 +123,8 @@ docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag .
 cd -
                 '''
             }
-        }
+        }  
+
 
         stage('build-sanbox') {
           when{ 
@@ -239,9 +240,9 @@ docker push devopseasylearning2021/s4-weather:${BUILD_NUMBER}-$WEATHERTag
 	            sh '''
                  git config --global user.name "devopseasylearning"
                  git config --global user.email info@devopseasylearning.com
-                rm -rf s4-pipeline-practise || true
-                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
-                cd s4-pipeline-practise/CHARTS
+                rm -rf s3-pipeline-practise--charts || true
+                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git
+                cd s3-pipeline-practise--charts/CHARTS
 cat <<EOF > dev-values.yaml           
         image:
           db:
@@ -259,7 +260,7 @@ cat <<EOF > dev-values.yaml
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git || true
+                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git || true
 
 	            '''
 	          }
@@ -285,9 +286,9 @@ EOF
 	            sh '''
                  git config --global user.name "devopseasylearning"
                  git config --global user.email info@devopseasylearning.com
-                rm -rf s4-pipeline-practise || true
-                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
-                cd s4-pipeline-practise/CHARTS
+                rm -rf s3-pipeline-practise--charts || true
+                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git
+                cd s3-pipeline-practise--charts/CHARTS
 cat <<EOF > sanbox-values.yaml           
         image:
           db:
@@ -305,7 +306,7 @@ cat <<EOF > sanbox-values.yaml
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git  || true
+                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git  || true
 
 	            '''
 	          }
@@ -332,9 +333,9 @@ EOF
 	            sh '''
                  git config --global user.name "devopseasylearning"
                  git config --global user.email info@devopseasylearning.com
-                rm -rf s4-pipeline-practise || true
-                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git
-                cd s4-pipeline-practise/CHARTS
+                rm -rf s3-pipeline-practise--charts || true
+                git clone  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git
+                cd s3-pipeline-practise--charts/CHARTS
 cat <<EOF > prod-values.yaml           
         image:
           db:
@@ -352,7 +353,7 @@ cat <<EOF > prod-values.yaml
 EOF
                 git add -A 
                 git commit -m "testing jenkins"
-                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s4-pipeline-practise.git  || true
+                git push https://devopseasylearning:$TOKEN@github.com/devopseasylearning/s3-pipeline-practise--charts.git  || true
 
 	            '''
 	          }
