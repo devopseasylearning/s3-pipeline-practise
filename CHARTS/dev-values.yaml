@@ -4,10 +4,10 @@
              tag: "v1.0.0"
           ui:
              repository: devopseasylearning2021/s4-ui
-             tag: "v8.0.0"
+             tag: "v1.0.0"
           auth:
              repository: devopseasylearning2021/s4-auth
-             tag: "v8.0.0"
+             tag: "v1.0.0"
           weather:
              repository: devopseasylearning2021/s4-weather
-             tag: "v8.0.0"
+             tag: "v1.0.0"
