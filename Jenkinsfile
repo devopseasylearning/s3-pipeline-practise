@@ -13,6 +13,7 @@ options {
     timeout (time: 60, unit: 'MINUTES')
     timestamps()
   }
+	
 
     stages {
         stage('Setup parameters') {
