@@ -1,0 +1,123 @@
+pipeline {
+    agent {
+     label ("node1 || node2 ||  node3 || node4 ||  node5 ||  branch ||  main ||  jenkins-node || docker-agent ||  jenkins-docker2 ||  preproduction ||  production")
+            }
+
+
+
+options {
+    buildDiscarder(logRotator(numToKeepStr: '20'))
+    disableConcurrentBuilds()
+    timeout (time: 60, unit: 'MINUTES')
+    timestamps()
+  }
+	
+
+    stages {
+
+
+        stage('cleaning') {
+            steps {
+                sh '''
+                ls 
+                '''
+            }
+        }
+
+
+ stage('SonarQube analysis') {
+             agent {
+                 docker {
+                 image 'sonarsource/sonar-scanner-cli:4.7.0'
+               }
+             }
+                environment {
+     CI = 'true'
+         scannerHome='/opt/sonar-scanner'
+    }
+          steps{
+               withSonarQubeEnv('Sonar') {
+                 sh "${scannerHome}/bin/sonar-scanner"
+            }
+          }
+       }
+
+
+        stage('build-UI') {
+  
+            steps {
+                sh '''
+cd $WORKSPACE/UI
+docker build -t devopseasylearning2021/s4-ui:${BUILD_NUMBER} .
+
+                '''
+            }
+        }  
+
+
+        stage('build-DB') {
+            steps {
+                sh '''
+
+cd $WORKSPACE/DB
+docker build -t devopseasylearning2021/s4-db:${BUILD_NUMBER} .
+
+                '''
+            }
+        }
+
+
+        stage('build-AUTH') {
+            steps {
+                sh '''
+cd $WORKSPACE/auth 
+docker build -t devopseasylearning2021/s4-auth:${BUILD_NUMBER} .
+
+                '''
+            }
+        }
+
+        stage('build-WEATHER') {
+            steps {
+                sh '''
+cd $WORKSPACE/weather
+docker build -t devopseasylearning2021/s4-weather:${BUILD_NUMBER} .
+                '''
+            }
+        }
+
+
+
+        
+    }
+	
+	
+	
+   post {
+   
+   success {
+      slackSend (channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application S4-EKTSS  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    }
+
+ 
+    unstable {
+      slackSend (channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application S4-EKTSS  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    }
+
+    failure {
+      slackSend (channel: '#development-alerts', color: '#FF0000', message: "FAILURE: Application S4-EKTSS Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    }
+   
+    cleanup {
+      deleteDir()
+    }
+}
+
+
+	
+}
+
+
+
+
+
