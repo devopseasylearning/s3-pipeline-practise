@@ -95,7 +95,6 @@ echo $?
              }
                 environment {
      CI = 'true'
-           scannerHome = tool 'Sonar'
          scannerHome='/opt/sonar-scanner'
     }
           steps{
